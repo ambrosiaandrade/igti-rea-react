@@ -1,23 +1,25 @@
-import React, { Component } from "react";
-import "./List.css";
+import React, { Component } from 'react';
+import './List.css';
 
 // Bootstrap for react
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
-import ListGroup from "react-bootstrap/ListGroup";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import InputGroup from 'react-bootstrap/InputGroup';
+import FormControl from 'react-bootstrap/FormControl';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 class List extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      textInput: "",
+      textInput: '',
       list: [],
     };
+
+    this.inputRef = React.createRef();
   }
 
   updateInput(value) {
@@ -25,7 +27,7 @@ class List extends Component {
   }
 
   addItem() {
-    if (this.state.textInput !== "") {
+    if (this.state.textInput !== '') {
       const textInput = {
         id: Math.random(),
         value: this.state.textInput,
@@ -36,8 +38,10 @@ class List extends Component {
 
       this.setState({
         list,
-        textInput: "",
+        textInput: '',
       });
+
+      this.inputRef.current.focus();
     }
   }
 
@@ -62,6 +66,8 @@ class List extends Component {
                 onChange={(item) => this.updateInput(item.target.value)}
                 aria-label="Adicione uma tarefa"
                 aria-describedby="basic-addon2"
+                onKeyPress={(event) => event.key === 'Enter' && this.addItem()}
+                ref={this.inputRef}
               />
               <InputGroup.Append>
                 <Button variant="info" size="lg" onClick={() => this.addItem()}>
